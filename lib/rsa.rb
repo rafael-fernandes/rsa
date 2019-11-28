@@ -16,35 +16,25 @@ class RSA
     [{ e: e, n: n }, { d: d, n: n }]
   end
 
-  def n(p, q)
-    n = p * q
-  end
-
-  def phi(p, q)
-    (p - 1) * (q - 1)
-  end
-
-  def e(phi)
-    phi.downto(2).find do |i|     
-      Prime.prime?(i) and phi % i != 0
-    end
-  end
-
-  def d(e, phi)
-    inverse_modulo(e, phi)
-  end
-
-  def encrypt(message, e, n)
-    message.bytes.map do |byte|
-      cbyte = ((byte.to_i ** e) % n).to_s
-      missing_chars = n.to_s.size - cbyte.size
+  def encrypt(message, public_key)
+    ciphed_message = message.bytes.map do |byte|
+      cbyte = ((byte.to_i ** public_key[:e]) % public_key[:n]).to_s
+      missing_chars = public_key[:n].to_s.size - cbyte.size
       '0' * missing_chars + cbyte
     end.join
+
+    @logger.success("Ciphed message: #{ciphed_message}")
+
+    ciphed_message
   end
 
-  def decrypt(ciphed_message, d, n)
-    ciphed_message.chars.each_slice(n.to_s.size).map do |arr|
-      (arr.join.to_i ** d) % n
+  def decrypt(ciphed_message, private_key)
+    deciphed_message = ciphed_message.chars.each_slice(private_key[:n].to_s.size).map do |arr|
+      (arr.join.to_i ** private_key[:d]) % private_key[:n]
     end.pack('c*')
+
+    @logger.success("Deciphed message: #{deciphed_message}")
+
+    deciphed_message
   end
 end

@@ -21,4 +21,22 @@ module Math
     raise 'The maths are broken!' if g != 1
     x % et
   end
+
+  def n(p, q)
+    n = p * q
+  end
+
+  def phi(p, q)
+    (p - 1) * (q - 1)
+  end
+
+  def e(phi)
+    phi.downto(2).find do |i|     
+      Prime.prime?(i) and phi % i != 0
+    end
+  end
+
+  def d(e, phi)
+    inverse_modulo(e, phi)
+  end
 end
