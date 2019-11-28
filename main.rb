@@ -6,12 +6,9 @@ rsa = RSA.new
 alice = Person.new('Alice')
 bob = Person.new('Bob')
 
-alice.key_pair = ca.generate_keys
-bob.key_pair = ca.generate_keys
-
-# print alice.key_pair.public_key
-# print alice.key_pair.private_key
+alice.public_key, alice.private_key = ca.generate_keys
+bob.public_key, bob.private_key = ca.generate_keys
 
 original_message = "rafael alves fernandes"
-ciphed_message = rsa.encrypt(original_message, alice.key_pair.public_key)
-deciphed_message = rsa.decrypt(ciphed_message, alice.key_pair.private_key)
+ciphed_message = rsa.encrypt(original_message, alice.public_key)
+deciphed_message = rsa.decrypt(ciphed_message, alice.private_key)
