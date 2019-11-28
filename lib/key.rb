@@ -4,6 +4,7 @@ class Key
   def initialize(value, type)
     @value = value
     @type = type
+    @logger = TTY::Logger.new { |config| config.level = $TTY_LEVEL }
   end
 
   def public?
@@ -28,5 +29,14 @@ class Key
     return nil if public?
 
     @value[:d]
+  end
+
+  def to_s
+    case type
+    when :public
+      "(n => #{n}, e => #{e})"
+    when :private
+      "(n => #{n}, d => #{d})"
+    end
   end
 end
