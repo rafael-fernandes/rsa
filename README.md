@@ -66,8 +66,16 @@ deciphed_message = RSA.new.decrypt('1350 606 459 1190 19 852 384 550 852 153 818
 
 ```ruby
 ds = RSA::DigitalSignature.new('Oi, eu sou a Alice', alice.private_key)
+
 alice_signature_pack = ds.signature_pack
+# ['Oi, eu sou a Alice', '3DE 354 41C 518 3A7 2E9 3A7 D5 162 2E9 300 D5 1E8 2E9 2E9 3A7 41C 54 1FE 3DE 1E8 300 237 2E9 518 1FE 1E8 237 3A7 2E9 2E9 3A2 D5 2E9 54 1E8 41C 1FE D5 D5']
+
 ds.valid?(alice_signature_pack[:message], alice_signature_pack[:signature], alice.public_key)
+# ℹ info    Mensagem: 'Oi, eu sou a Alice'
+# ✔ success Hash da mensagem: d8e9141b347b6441e2cd67549c65144ab426ecbb
+# ℹ info    Assinatura digital: 3DE 354 41C 518 3A7 2E9 3A7 D5 162 2E9 300 D5 1E8 2E9 2E9 3A7 41C 54 1FE 3DE 1E8 300 237 2E9 518 1FE 1E8 237 3A7 2E9 2E9 3A2 D5 2E9 54 1E8 41C 1FE D5 D5
+# ✔ success Assinatura digital decifrada: d8e9141b347b6441e2cd67549c65144ab426ecbb
+# ✔ success Os hashs são iguais
 ```
 
 **Fontes:**
